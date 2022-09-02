@@ -1,5 +1,5 @@
 package karpiuk.ivan.retrofit.model
 
-internal data class RestFeedModel(
+data class RestFeedModel(
     val feed: RestFeed
 )

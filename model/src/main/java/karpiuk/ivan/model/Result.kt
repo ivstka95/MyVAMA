@@ -1,11 +1,11 @@
 package karpiuk.ivan.model
 
 data class Result(
-    val artistId: String,
+    val artistId: String?,
     val artistName: String,
-    val artistUrl: String,
+    val artistUrl: String?,
     val artworkUrl100: String,
-    val contentAdvisoryRating: String,
+    val contentAdvisoryRating: String?,
     val genres: List<Genre>,
     val id: String,
     val kind: String,

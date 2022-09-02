@@ -2,7 +2,7 @@ package karpiuk.ivan.retrofit.model
 
 import karpiuk.ivan.repository.model.network.*
 
-internal fun RestFeed.asExternalModel(): NetworkFeed = NetworkFeed(
+fun RestFeed.asExternalModel(): NetworkFeed = NetworkFeed(
     author = this.author.asExternalModel(),
     copyright = this.copyright,
     country = this.country,
@@ -14,11 +14,11 @@ internal fun RestFeed.asExternalModel(): NetworkFeed = NetworkFeed(
     updated = this.updated
 )
 
-internal fun RestAuthor.asExternalModel() = NetworkAuthor(name = this.name, url = this.url)
+fun RestAuthor.asExternalModel() = NetworkAuthor(name = this.name, url = this.url)
 
-internal fun RestLink.asExternalModel() = NetworkLink(self = this.self)
+fun RestLink.asExternalModel() = NetworkLink(self = this.self)
 
-internal fun RestResult.asExternalModel() = NetworkResult(
+fun RestResult.asExternalModel() = NetworkResult(
     artistId = this.artistId,
     artistName = this.artistName,
     artistUrl = this.artistUrl,
@@ -32,7 +32,7 @@ internal fun RestResult.asExternalModel() = NetworkResult(
     url = this.url
 )
 
-internal fun RestGenre.asExternalModel() = NetworkGenre(
+fun RestGenre.asExternalModel() = NetworkGenre(
     genreId = this.genreId,
     name = this.name,
     url = this.url

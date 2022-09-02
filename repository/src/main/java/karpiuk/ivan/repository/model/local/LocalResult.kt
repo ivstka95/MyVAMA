@@ -1,11 +1,11 @@
 package karpiuk.ivan.repository.model.local
 
 data class LocalResult(
-    val artistId: String,
+    val artistId: String?,
     val artistName: String,
-    val artistUrl: String,
+    val artistUrl: String?,
     val artworkUrl100: String,
-    val contentAdvisoryRating: String,
+    val contentAdvisoryRating: String?,
     val genres: List<LocalGenre>,
     val id: String,
     val kind: String,

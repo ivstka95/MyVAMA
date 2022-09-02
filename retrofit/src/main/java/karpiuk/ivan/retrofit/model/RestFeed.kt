@@ -1,6 +1,6 @@
 package karpiuk.ivan.retrofit.model
 
-internal data class RestFeed(
+data class RestFeed(
     val author: RestAuthor,
     val copyright: String,
     val country: String,
