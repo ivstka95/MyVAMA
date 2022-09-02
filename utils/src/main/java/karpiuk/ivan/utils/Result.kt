@@ -1,4 +1,4 @@
-package karpiuk.ivan.common
+package karpiuk.ivan.utils
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

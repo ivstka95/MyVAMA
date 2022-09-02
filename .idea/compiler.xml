@@ -7,6 +7,7 @@
       <module name="MyVAMA.realm" target="11" />
       <module name="MyVAMA.repository" target="11" />
       <module name="MyVAMA.retrofit" target="11" />
+      <module name="MyVAMA.utils" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

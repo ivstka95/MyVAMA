@@ -3,11 +3,12 @@ package karpiuk.ivan.domain.useCases
 import karpiuk.ivan.domain.FeedRepository
 import karpiuk.ivan.domain.Format
 import karpiuk.ivan.domain.UseCaseWithParams
-import karpiuk.ivan.common.Result
+import karpiuk.ivan.utils.Result
 import karpiuk.ivan.model.Feed
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class GetFeedUseCase(private val feedRepository: FeedRepository) :
+class GetFeedUseCase @Inject constructor(private val feedRepository: FeedRepository) :
     UseCaseWithParams<GetFeedUseCase.FeedParams, Feed>() {
 
     override fun invoke(params: FeedParams): Flow<Result<Feed>> =

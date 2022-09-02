@@ -2,12 +2,14 @@ package karpiuk.ivan.repository
 
 import karpiuk.ivan.domain.FeedRepository
 import karpiuk.ivan.model.Feed
-import karpiuk.ivan.common.Result
+import karpiuk.ivan.utils.Result
 import karpiuk.ivan.repository.model.network.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class OfflineFirstFeedRepository(private val networkFeedSource: NetworkFeedSource) : FeedRepository {
+class OfflineFirstFeedRepository @Inject constructor(private val networkFeedSource: NetworkFeedSource) :
+    FeedRepository {
     override fun getFeedStream(
         mediaType: String,
         storefront: String,
