@@ -15,3 +15,8 @@ dependencyResolutionManagement {
 rootProject.name = "MyVAMA"
 include ':app'
 include ':model'
+include ':common'
+include ':domain'
+include ':repository'
+include ':retrofit'
+include ':realm'
