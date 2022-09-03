@@ -4,6 +4,7 @@
     <bytecodeTargetLevel target="1.8">
       <module name="MyVAMA.app" target="11" />
       <module name="MyVAMA.domain" target="11" />
+      <module name="MyVAMA.feature-feed" target="11" />
       <module name="MyVAMA.realm" target="11" />
       <module name="MyVAMA.repository" target="11" />
       <module name="MyVAMA.retrofit" target="11" />
