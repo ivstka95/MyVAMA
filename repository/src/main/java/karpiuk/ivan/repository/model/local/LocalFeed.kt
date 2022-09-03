@@ -1,7 +1,7 @@
 package karpiuk.ivan.repository.model.local
 
 data class LocalFeed(
-    val author: LocalAuthor,
+    val author: LocalAuthor?,
     val copyright: String,
     val country: String,
     val icon: String,
