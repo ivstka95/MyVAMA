@@ -42,5 +42,4 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.42"
     implementation project(path: ':model')
     implementation project(path: ':domain')
-    implementation project(path: ':utils')
 }
