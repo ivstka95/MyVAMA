@@ -12,6 +12,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindFeedRepository(
-        offlineFirstFeedRepository: OfflineFirstFeedRepository
+        defaultFeedRepository: DefaultFeedRepository
     ): FeedRepository
 }
