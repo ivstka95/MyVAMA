@@ -1,34 +1,19 @@
 package karpiuk.ivan.retrofit
 
+import karpiuk.ivan.utils.IoDispatcher
 import karpiuk.ivan.repository.NetworkFeedSource
 import karpiuk.ivan.repository.model.network.NetworkFeed
-import karpiuk.ivan.retrofit.model.RestFeedModel
 import karpiuk.ivan.retrofit.model.asExternalModel
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-internal interface FeedApiService {
-    @GET("/{storefront}/{mediaType}/{feed}/{resultLimit}/{type}.{format}")
-    suspend fun getFeed(
-        storefront: String,
-        mediaType: String,
-        feed: String,
-        resultLimit: Int,
-        type: String,
-        format: String
-    ): RestFeedModel
-}
+internal const val FEED_API_BASE_URL = "https://rss.applemarketingtools.com/"
 
-private const val FEED_API_BASE_URL = "https://rss.applemarketingtools.com/api/v2"
-
-internal val defaultFeedApiService = Retrofit.Builder()
-    .baseUrl(FEED_API_BASE_URL)
-    .addConverterFactory(GsonConverterFactory.create())
-    .build()
-    .create(FeedApiService::class.java)
-
-internal class RetrofitFeedSource(private val feedApiService: FeedApiService) : NetworkFeedSource {
+class RetrofitFeedSource @Inject constructor(
+    private val feedApiService: FeedApiService,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) : NetworkFeedSource {
 
     override suspend fun getFeed(
         mediaType: String,
@@ -37,7 +22,10 @@ internal class RetrofitFeedSource(private val feedApiService: FeedApiService) : 
         feed: String,
         resultLimit: Int,
         format: String
-    ): NetworkFeed {
-        return feedApiService.getFeed(storefront, mediaType, feed, resultLimit, type, format).feed.asExternalModel()
-    }
+    ): NetworkFeed =
+        withContext(ioDispatcher) {
+            feedApiService.getFeed(storefront, mediaType, feed, resultLimit, type, format)
+                .feed
+                .asExternalModel()
+        }
 }
