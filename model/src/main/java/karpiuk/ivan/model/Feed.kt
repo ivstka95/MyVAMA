@@ -1,7 +1,7 @@
 package karpiuk.ivan.model
 
 data class Feed(
-    val author: Author,
+    val author: Author?,
     val copyright: String,
     val country: String,
     val icon: String,
