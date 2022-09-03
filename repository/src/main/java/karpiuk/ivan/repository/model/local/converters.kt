@@ -1,15 +1,13 @@
-package karpiuk.ivan.repository.model.network
+package karpiuk.ivan.repository.model.local
 
 import karpiuk.ivan.model.Author
 import karpiuk.ivan.model.Feed
 import karpiuk.ivan.model.Genre
 import karpiuk.ivan.model.Link
 import karpiuk.ivan.model.Result
-import karpiuk.ivan.repository.model.local.*
-import karpiuk.ivan.repository.model.network.asDomainModel
 
-internal fun NetworkFeed.asDomainModel() = Feed(
-    author = this.author.asDomainModel(),
+internal fun LocalFeed.asDomainModel() = Feed(
+    author = this.author?.asDomainModel(),
     copyright = this.copyright,
     country = this.country,
     icon = this.icon,
@@ -20,11 +18,11 @@ internal fun NetworkFeed.asDomainModel() = Feed(
     updated = this.updated
 )
 
-internal fun NetworkAuthor.asDomainModel() = Author(name = this.name, url = this.url)
+internal fun LocalAuthor.asDomainModel() = Author(name = this.name, url = this.url)
 
-internal fun NetworkLink.asDomainModel() = Link(self = this.self)
+internal fun LocalLink.asDomainModel() = Link(self = this.self)
 
-internal fun NetworkResult.asDomainModel() = Result(
+internal fun LocalResult.asDomainModel() = Result(
     artistId = this.artistId,
     artistName = this.artistName,
     artistUrl = this.artistUrl,
@@ -38,15 +36,15 @@ internal fun NetworkResult.asDomainModel() = Result(
     url = this.url
 )
 
-internal fun NetworkGenre.asDomainModel() = Genre(
+internal fun LocalGenre.asDomainModel() = Genre(
     genreId = this.genreId,
     name = this.name,
     url = this.url
 )
 
 
-internal fun NetworkFeed.asLocalModel() = LocalFeed(
-    author = this.author.asLocalModel(),
+internal fun Feed.asLocalModel() = LocalFeed(
+    author = this.author?.asLocalModel(),
     copyright = this.copyright,
     country = this.country,
     icon = this.icon,
@@ -57,11 +55,11 @@ internal fun NetworkFeed.asLocalModel() = LocalFeed(
     updated = this.updated
 )
 
-internal fun NetworkAuthor.asLocalModel() = LocalAuthor(name = this.name, url = this.url)
+internal fun Author.asLocalModel() = LocalAuthor(name = this.name, url = this.url)
 
-internal fun NetworkLink.asLocalModel() = LocalLink(self = this.self)
+internal fun Link.asLocalModel() = LocalLink(self = this.self)
 
-internal fun NetworkResult.asLocalModel() = LocalResult(
+internal fun Result.asLocalModel() = LocalResult(
     artistId = this.artistId,
     artistName = this.artistName,
     artistUrl = this.artistUrl,
@@ -75,7 +73,7 @@ internal fun NetworkResult.asLocalModel() = LocalResult(
     url = this.url
 )
 
-internal fun NetworkGenre.asLocalModel() = LocalGenre(
+internal fun Genre.asLocalModel() = LocalGenre(
     genreId = this.genreId,
     name = this.name,
     url = this.url
