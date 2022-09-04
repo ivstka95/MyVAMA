@@ -6,35 +6,40 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
+import karpiuk.ivan.myvama.navigation.AppNavHost
+import karpiuk.ivan.myvama.ui.FeedAppState
+import karpiuk.ivan.myvama.ui.rememberFeedAppState
 import karpiuk.ivan.myvama.ui.theme.MyVAMATheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyVAMATheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
-                }
-            }
+            FeedApp(
+                modifier = Modifier.fillMaxSize(),
+                feedAppState = rememberFeedAppState(navHostController = rememberNavController())
+            )
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
+private fun FeedApp(
+    modifier: Modifier = Modifier,
+    feedAppState: FeedAppState = rememberFeedAppState(navHostController = rememberNavController())
+) {
     MyVAMATheme {
-        Greeting("Android")
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+            AppNavHost(
+                navHostController = feedAppState.navHostController,
+                onNavigateToDestination = { feedAppState.navigate(it) },
+                onBackClick = { feedAppState.onBackClick() })
+        }
     }
 }
