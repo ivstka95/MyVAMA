@@ -21,7 +21,7 @@ object DetailsDestination : AppNavigationDestination {
     private const val baseRoute = "details_route"
 
     override val route =
-        "$baseRoute/{$artworkArg}/{$nameArg}/{$artistNameArg}/{$genreArg}/{$releaseDateArg}/{$copyrightArg}/?artistLinkArg={$artistLinkArg}"
+        "$baseRoute/{$artworkArg}/{$nameArg}/{$artistNameArg}/{$genreArg}/{$releaseDateArg}/{$copyrightArg}/{$artistLinkArg}"
 
     fun createNavigationRoute(
         artworkArg: String,
@@ -89,12 +89,12 @@ fun NavGraphBuilder.detailsGraph(
             onBackClick = onBackClick,
             onArtistPageClick = onArtistPageClick,
             artwork = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artworkArg)!!,
-            name = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artworkArg)!!,
-            artistName = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artworkArg)!!,
-            genre = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artworkArg)!!,
-            releaseDate = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artworkArg)!!,
-            copyright = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artworkArg)!!,
-            artistLink = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artworkArg),
+            name = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.nameArg)!!,
+            artistName = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artistNameArg)!!,
+            genre = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.genreArg)!!,
+            releaseDate = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.releaseDateArg)!!,
+            copyright = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.copyrightArg)!!,
+            artistLink = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artistLinkArg),
         )
     }
 }

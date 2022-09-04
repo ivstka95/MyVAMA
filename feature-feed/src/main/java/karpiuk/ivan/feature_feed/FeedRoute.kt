@@ -33,11 +33,15 @@ import karpiuk.ivan.ui.R
 import karpiuk.ivan.ui.fontSizeResource
 
 @Composable
-fun FeedRoute(modifier: Modifier = Modifier, feedViewModel: FeedViewModel = hiltViewModel()) {
+fun FeedRoute(
+    onItemClick: (Result, String) -> Unit,
+    modifier: Modifier = Modifier,
+    feedViewModel: FeedViewModel = hiltViewModel()
+) {
     val state by feedViewModel.uiState.collectAsState()
     FeedContent(
         state = state,
-        onItemClick = {},
+        onItemClick = onItemClick,
         modifier = modifier
     )
 }
@@ -45,7 +49,7 @@ fun FeedRoute(modifier: Modifier = Modifier, feedViewModel: FeedViewModel = hilt
 @Composable
 fun FeedContent(
     state: FeedUiState,
-    onItemClick: (Result) -> Unit,
+    onItemClick: (Result, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (state) {
@@ -61,7 +65,12 @@ fun FeedContent(
 }
 
 @Composable
-fun ContentGrid(items: List<Result>, copyright: String, onItemClick: (Result) -> Unit, modifier: Modifier = Modifier) {
+fun ContentGrid(
+    items: List<Result>,
+    copyright: String,
+    onItemClick: (Result, String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyVerticalGrid(
         contentPadding = PaddingValues(all = dimensionResource(id = R.dimen.default_content_padding)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_items_spacing)),
@@ -70,7 +79,7 @@ fun ContentGrid(items: List<Result>, copyright: String, onItemClick: (Result) ->
         modifier = modifier
     ) {
         items(items, key = { it.id }) {
-            ContentItem(data = it, onItemClick = onItemClick)
+            ContentItem(data = it, onItemClick = { item -> onItemClick(item, copyright) })
         }
     }
 }
@@ -141,7 +150,6 @@ fun ContentItem(data: Result, onItemClick: (Result) -> Unit, modifier: Modifier 
 @Composable
 fun Error(message: String?, retryAction: () -> Unit, modifier: Modifier = Modifier) {
     Text(text = message ?: stringResource(id = R.string.default_error_message))
-
 }
 
 @Composable
