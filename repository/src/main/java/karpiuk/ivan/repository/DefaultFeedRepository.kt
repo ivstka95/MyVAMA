@@ -21,8 +21,7 @@ class DefaultFeedRepository @Inject constructor(
         resultLimit: Int,
         format: String
     ) = localFeedSource.getFeedStream(mediaType, storefront, type, feed, resultLimit, format)
-        .filterNotNull()
-        .map { it.asDomainModel() }
+        .map { it?.asDomainModel() }
 
     override suspend fun saveFeedToCache(feed: Feed) {
         localFeedSource.saveFeedToCache(feed.asLocalModel())

@@ -7,7 +7,7 @@ import karpiuk.ivan.model.Feed
 import javax.inject.Inject
 
 class GetFeedStreamUseCase @Inject constructor(private val feedRepository: FeedRepository) :
-    UseCaseWithParams<FeedParams, Feed>() {
+    UseCaseWithParams<FeedParams, Feed?>() {
 
     override fun invoke(params: FeedParams) =
         feedRepository.getFeedStream(

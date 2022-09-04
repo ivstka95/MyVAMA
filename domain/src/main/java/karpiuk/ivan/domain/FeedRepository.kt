@@ -11,7 +11,7 @@ interface FeedRepository {
         feed: String,
         resultLimit: Int,
         format: String
-    ): Flow<Feed>
+    ): Flow<Feed?>
 
     suspend fun saveFeedToCache(feed: Feed)
 
