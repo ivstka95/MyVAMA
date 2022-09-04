@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_items_spacing">12dp</dimen>
+    <dimen name="large_items_spacing">24dp</dimen>
+    <dimen name="small_items_spacing">8dp</dimen>
     <dimen name="default_content_padding">16dp</dimen>
     <dimen name="card_corner_radius">16dp</dimen>
     <dimen name="cell_content_padding">12dp</dimen>
+    <dimen name="back_button_size">32dp</dimen>
+    <dimen name="button_corner_radius">10dp</dimen>
+    <dimen name="button_height">45dp</dimen>
 </resources>

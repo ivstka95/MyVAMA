@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyVAMA</string>
+    <string name="cant_open_link">Can\'t open link</string>
 </resources>
