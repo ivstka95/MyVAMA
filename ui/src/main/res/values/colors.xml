@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="gray">#b5b5b5</color>
+    <color name="cell_item_subtitle_color">#b5b5b5</color>
+    <color name="details_subtitle_color">#8e8e93</color>
     <color name="gradient_color">#c0000000</color>
+    <color name="back_button_color">#80ffffff</color>
+    <color name="blue_color">#007aff</color>
 </resources>
