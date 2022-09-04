@@ -71,7 +71,7 @@ object DetailsDestination : AppNavigationDestination {
 
 fun NavGraphBuilder.detailsGraph(
     onBackClick: () -> Unit,
-    onArtistPageClick: () -> Unit
+    onArtistPageClick: (String) -> Unit
 ) {
     composable(
         route = DetailsDestination.route,
@@ -87,7 +87,7 @@ fun NavGraphBuilder.detailsGraph(
     ) {
         DetailsRoute(
             onBackClick = onBackClick,
-            onArtistPageClick = onArtistPageClick,
+            onAlbumPageClick = onArtistPageClick,
             artwork = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artworkArg)!!,
             name = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.nameArg)!!,
             artistName = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artistNameArg)!!,
