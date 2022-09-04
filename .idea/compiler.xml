@@ -6,6 +6,7 @@
       <module name="MyVAMA.domain" target="11" />
       <module name="MyVAMA.feature-details" target="11" />
       <module name="MyVAMA.feature-feed" target="11" />
+      <module name="MyVAMA.navigation" target="11" />
       <module name="MyVAMA.realm" target="11" />
       <module name="MyVAMA.repository" target="11" />
       <module name="MyVAMA.retrofit" target="11" />
