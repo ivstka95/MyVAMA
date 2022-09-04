@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="cell_title_font_size">16</integer>
+    <integer name="cell_title_max_lines">2</integer>
+    <integer name="cell_sub_title_font_size">12</integer>
+    <integer name="cell_sub_title_max_lines">2</integer>
+</resources>

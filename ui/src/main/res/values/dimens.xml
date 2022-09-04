@@ -2,4 +2,6 @@
 <resources>
     <dimen name="default_items_spacing">12dp</dimen>
     <dimen name="default_content_padding">16dp</dimen>
+    <dimen name="card_corner_radius">16dp</dimen>
+    <dimen name="cell_content_padding">12dp</dimen>
 </resources>
