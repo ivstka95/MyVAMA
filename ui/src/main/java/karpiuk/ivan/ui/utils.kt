@@ -21,6 +21,6 @@ fun String.formattedDate(context: Context): String {
             "12" -> context.getString(R.string.month_december)
             else -> dateComponents[1]
         }
-    val day = dateComponents[2]
+    val day = dateComponents[2].removePrefix("0")
     return "$month $day, $year"
 }

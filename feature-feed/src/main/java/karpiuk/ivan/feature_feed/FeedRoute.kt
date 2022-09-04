@@ -30,7 +30,8 @@ import coil.request.ImageRequest
 import karpiuk.ivan.model.Feed
 import karpiuk.ivan.model.Result
 import karpiuk.ivan.ui.R
-import karpiuk.ivan.ui.fontSizeResource
+import karpiuk.ivan.ui.artistNameTextStyle
+import karpiuk.ivan.ui.itemNameTextStyle
 
 @Composable
 fun FeedRoute(
@@ -125,19 +126,13 @@ fun ContentItem(data: Result, onItemClick: (Result) -> Unit, modifier: Modifier 
             ) {
                 Text(
                     text = data.name,
-                    style = TextStyle(
-                        color = Color.White,
-                        fontSize = fontSizeResource(id = R.integer.cell_title_font_size)
-                    ),
+                    style = itemNameTextStyle(),
                     maxLines = integerResource(id = R.integer.cell_title_max_lines),
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = data.artistName,
-                    style = TextStyle(
-                        color = colorResource(id = R.color.gray),
-                        fontSize = fontSizeResource(id = R.integer.cell_sub_title_font_size)
-                    ),
+                    style = artistNameTextStyle(),
                     maxLines = integerResource(id = R.integer.cell_sub_title_max_lines),
                     overflow = TextOverflow.Ellipsis
                 )
