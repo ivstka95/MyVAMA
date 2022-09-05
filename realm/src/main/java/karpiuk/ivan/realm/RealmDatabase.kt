@@ -18,8 +18,7 @@ import javax.inject.Inject
 class RealmDatabase @Inject constructor(
     private val realm: Realm,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) :
-    LocalFeedSource {
+) : LocalFeedSource {
     override fun getFeedStream(
         mediaType: String,
         storefront: String,
@@ -28,21 +27,14 @@ class RealmDatabase @Inject constructor(
         resultLimit: Int,
         format: String
     ): Flow<LocalFeed?> =
-        realm.query(RealmFeed::class, "id CONTAINS '$mediaType' AND id CONTAINS '$storefront' AND id CONTAINS '$type' AND id CONTAINS '$feed' AND id CONTAINS '$resultLimit' AND id CONTAINS '$format'")
+        realm.query(
+            RealmFeed::class,
+            "id CONTAINS '$mediaType' AND id CONTAINS '$storefront' AND id CONTAINS '$type' AND id CONTAINS '$feed' AND id CONTAINS '$resultLimit' AND id CONTAINS '$format'"
+        )
             .first()
             .asFlow()
+            .flowOn(ioDispatcher)
             .map { it.obj?.asExternalModel() }
-
-    override suspend fun getFeed(
-        mediaType: String,
-        storefront: String,
-        type: String,
-        feed: String,
-        resultLimit: Int,
-        format: String
-    ): LocalFeed? = withContext(ioDispatcher) {
-        realm.query<RealmFeed>().find().firstOrNull()?.asExternalModel()
-    }
 
     override suspend fun saveFeedToCache(localFeed: LocalFeed) {
         withContext(ioDispatcher) {
