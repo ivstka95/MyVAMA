@@ -15,4 +15,5 @@
     <string name="month_november">November</string>
     <string name="month_december">December</string>
     <string name="released">Released %s</string>
+    <string name="retry">Retry</string>
 </resources>

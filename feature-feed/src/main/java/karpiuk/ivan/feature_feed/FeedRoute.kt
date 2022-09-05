@@ -7,11 +7,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -30,6 +32,7 @@ import coil.request.ImageRequest
 import karpiuk.ivan.model.Feed
 import karpiuk.ivan.model.Result
 import karpiuk.ivan.ui.R
+import karpiuk.ivan.ui.VamaStyledButton
 import karpiuk.ivan.ui.artistNameTextStyle
 import karpiuk.ivan.ui.itemNameTextStyle
 
@@ -144,12 +147,24 @@ fun ContentItem(data: Result, onItemClick: (Result) -> Unit, modifier: Modifier 
 
 @Composable
 fun Error(message: String?, retryAction: () -> Unit, modifier: Modifier = Modifier) {
-    Text(text = message ?: stringResource(id = R.string.default_error_message))
+    Column(
+        modifier = modifier
+            .padding(all = dimensionResource(id = R.dimen.default_content_padding))
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = message ?: stringResource(id = R.string.default_error_message))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_items_spacing)))
+        VamaStyledButton(text = stringResource(id = R.string.retry), onClick = retryAction)
+    }
 }
 
 @Composable
 fun LoadingIndicator(modifier: Modifier = Modifier) {
-    Text(text = "Loading, please wait...", modifier = modifier)
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        CircularProgressIndicator()
+    }
 }
 
 sealed interface FeedUiState {

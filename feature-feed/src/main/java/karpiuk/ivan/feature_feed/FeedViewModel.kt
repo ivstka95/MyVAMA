@@ -8,12 +8,13 @@ import karpiuk.ivan.domain.useCases.GetFeedStreamUseCase
 import karpiuk.ivan.domain.useCases.UpdateFeedUseCase
 import karpiuk.ivan.utils.Result
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     getFeedStreamUseCase: GetFeedStreamUseCase,
-    updateFeedUseCase: UpdateFeedUseCase
+    private val updateFeedUseCase: UpdateFeedUseCase
 ) : ViewModel() {
 
     private val feedParams = FeedParams(
@@ -26,20 +27,29 @@ class FeedViewModel @Inject constructor(
     )
 
     private val feedStream = getFeedStreamUseCase(feedParams)
-    private val updateFeedStatusStream = updateFeedUseCase(feedParams)
+    private val updateFeedStatusStream = MutableSharedFlow<Result<Unit>?>(replay = 1)
+
+    init {
+        updateFeed()
+    }
+
+    private fun updateFeed() {
+        viewModelScope.launch {
+            updateFeedUseCase(feedParams).collect {
+                updateFeedStatusStream.emit(it)
+            }
+        }
+    }
 
     val uiState: StateFlow<FeedUiState> = combine(feedStream, updateFeedStatusStream) { feed, updateStatus ->
         when {
             feed != null -> FeedUiState.Ready(feed)
             updateStatus is Result.Error -> FeedUiState.Error(updateStatus.exception?.message) {
-                updateFeedStatusStream.launchIn(
-                    viewModelScope
-                )
+                updateFeed()
             }
             else -> FeedUiState.Loading
         }
     }
-        .distinctUntilChanged()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
