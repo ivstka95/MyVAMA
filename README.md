@@ -1,9 +1,9 @@
 # Vama Interview Coding Challenge (Android) done by Ivan Karpiuk
 
-This project is my submission of coding challenge for the senior android developer position at Vama
+This project is my submission of coding challenge for the senior android engineer position at Vama
 Implemented according to design satisfying all requirements
 
-Tech stack used:
+## Tech stack used:
 * Kotlin, Coroutines, Flow
 * MVVM, clean architecture
 * Realm
