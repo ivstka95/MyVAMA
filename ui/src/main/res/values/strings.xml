@@ -16,4 +16,5 @@
     <string name="month_december">December</string>
     <string name="released">Released %s</string>
     <string name="retry">Retry</string>
+    <string name="feed_title">Top 100 Albums</string>
 </resources>
