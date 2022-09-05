@@ -26,6 +26,12 @@ fun String.formattedDate(context: Context): String {
     return "$month $day, $year"
 }
 
-fun String.applySize(size: IntSize?): String {
-    return size?.let { replace("100x100", "${size.width}x${size.height}") } ?: this
+fun String.applySize(size: IntSize?, quality: Float = 0.5f): String {
+    return size?.let {
+        replace(
+            "100x100",
+            "${(size.width * quality).toInt()}x${(size.height * quality).toInt()}"
+        )
+    }
+        ?: this
 }
