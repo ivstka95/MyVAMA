@@ -1,6 +1,7 @@
 package karpiuk.ivan.ui
 
 import android.content.Context
+import androidx.compose.ui.unit.IntSize
 
 fun String.formattedDate(context: Context): String {
     val dateComponents = split('-')
@@ -23,4 +24,8 @@ fun String.formattedDate(context: Context): String {
         }
     val day = dateComponents[2].removePrefix("0")
     return "$month $day, $year"
+}
+
+fun String.applySize(size: IntSize?): String {
+    return size?.let { replace("100x100", "${size.width}x${size.height}") } ?: this
 }

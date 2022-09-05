@@ -10,31 +10,22 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import karpiuk.ivan.model.Feed
 import karpiuk.ivan.model.Result
+import karpiuk.ivan.ui.*
 import karpiuk.ivan.ui.R
-import karpiuk.ivan.ui.VamaStyledButton
-import karpiuk.ivan.ui.artistNameTextStyle
-import karpiuk.ivan.ui.itemNameTextStyle
 
 @Composable
 fun FeedRoute(
@@ -97,53 +88,43 @@ fun ContentItem(data: Result, onItemClick: (Result) -> Unit, modifier: Modifier 
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_radius))),
         onClick = { onItemClick(data) }
     ) {
-        Box() {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(data.artworkUrl100)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = data.artworkUrl100,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.matchParentSize()
-            )
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                colorResource(id = R.color.gradient_color)
-                            )
+        AutosizedImage(imageUrl = data.artworkUrl100, modifier = Modifier.fillMaxSize())
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            colorResource(id = R.color.gradient_color)
                         )
                     )
+                )
+        )
+
+        Column(
+            modifier = Modifier
+                .padding(all = dimensionResource(id = R.dimen.cell_content_padding))
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            Text(
+                text = data.name,
+                style = itemNameTextStyle(),
+                maxLines = integerResource(id = R.integer.cell_title_max_lines),
+                overflow = TextOverflow.Ellipsis
             )
-
-            Column(
-                modifier = Modifier
-                    .padding(all = dimensionResource(id = R.dimen.cell_content_padding))
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Bottom
-            ) {
-                Text(
-                    text = data.name,
-                    style = itemNameTextStyle(),
-                    maxLines = integerResource(id = R.integer.cell_title_max_lines),
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = data.artistName,
-                    style = artistNameTextStyle(),
-                    maxLines = integerResource(id = R.integer.cell_sub_title_max_lines),
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+            Text(
+                text = data.artistName,
+                style = artistNameTextStyle(),
+                maxLines = integerResource(id = R.integer.cell_sub_title_max_lines),
+                overflow = TextOverflow.Ellipsis
+            )
         }
-
     }
+
 }
+
 
 @Composable
 fun Error(message: String?, retryAction: () -> Unit, modifier: Modifier = Modifier) {

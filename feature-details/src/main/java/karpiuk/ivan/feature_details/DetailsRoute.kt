@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -21,8 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import karpiuk.ivan.ui.*
 import karpiuk.ivan.ui.R
 
@@ -75,13 +72,8 @@ fun DetailsContent(
                         verticalScroll(rememberScrollState()) else this
                 }
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(artwork)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = artwork,
-                contentScale = ContentScale.Crop,
+            AutosizedImage(
+                imageUrl = artwork,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
@@ -139,13 +131,13 @@ fun DetailsContent(
                     modifier = Modifier.align(CenterHorizontally)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.released ,releaseDate.formattedDate(LocalContext.current)),
+                        text = stringResource(id = R.string.released, releaseDate.formattedDate(LocalContext.current)),
                         style = artistNameTextStyle().copy(fontWeight = FontWeight.Medium)
                     )
                     Text(text = copyright, style = artistNameTextStyle().copy(fontWeight = FontWeight.Medium))
                     artistLink?.let {
                         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.large_items_spacing)))
-                        VamaStyledButton(text =stringResource(id = R.string.visit_album) ) {
+                        VamaStyledButton(text = stringResource(id = R.string.visit_album)) {
                             onAlbumPageClick(it)
                         }
                     }
