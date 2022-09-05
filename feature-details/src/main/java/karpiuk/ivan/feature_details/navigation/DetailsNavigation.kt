@@ -1,6 +1,7 @@
 package karpiuk.ivan.feature_details.navigation
 
 import android.net.Uri
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -70,6 +71,7 @@ object DetailsDestination : AppNavigationDestination {
 }
 
 fun NavGraphBuilder.detailsGraph(
+    paddings: PaddingValues,
     onBackClick: () -> Unit,
     onArtistPageClick: (String) -> Unit
 ) {
@@ -94,6 +96,7 @@ fun NavGraphBuilder.detailsGraph(
             genre = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.genreArg)!!,
             releaseDate = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.releaseDateArg)!!,
             copyright = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.copyrightArg)!!,
+            paddings = paddings,
             artistLink = DetailsDestination.decodeFromNavArgs(it, DetailsDestination.artistLinkArg),
         )
     }

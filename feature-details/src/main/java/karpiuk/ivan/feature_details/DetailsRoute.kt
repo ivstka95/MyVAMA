@@ -39,6 +39,7 @@ fun DetailsRoute(
     releaseDate: String,
     copyright: String,
     artistLink: String?,
+    paddings: PaddingValues,
     modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
@@ -58,6 +59,7 @@ fun DetailsRoute(
         releaseDate = releaseDate,
         copyright = copyright,
         artistLink = artistLink,
+        paddings = paddings,
         modifier = modifier
     )
 }
@@ -73,9 +75,10 @@ fun DetailsContent(
     releaseDate: String,
     copyright: String,
     artistLink: String?,
+    paddings: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier) {
+    Box(modifier = modifier.padding(bottom = paddings.calculateBottomPadding())) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -114,7 +117,7 @@ fun DetailsContent(
                     Text(
                         text = name,
                         style = itemNameTextStyle().copy(
-                            color = Color.Black,
+                            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                             fontSize = fontSizeResource(id = R.integer.details_title_font_size),
                             fontWeight = FontWeight.Bold,
                             letterSpacing = detailsTitleLetterSpacing
@@ -156,11 +159,22 @@ fun DetailsContent(
                 }
             }
         }
-        Box(modifier = Modifier.padding(dimensionResource(id = R.dimen.default_content_padding))) {
+        val defaultPadding = dimensionResource(id = R.dimen.default_content_padding)
+        Box(
+            modifier = Modifier.padding(
+                start = defaultPadding,
+                top = defaultPadding + paddings.calculateTopPadding(),
+                end = defaultPadding,
+                bottom = defaultPadding
+            )
+        ) {
             FilledIconButton(
                 onClick = onBackClick,
                 modifier = Modifier.size(dimensionResource(id = R.dimen.back_button_size)),
-                colors = IconButtonDefaults.iconButtonColors(containerColor = colorResource(id = R.color.back_button_color))
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = colorResource(id = R.color.back_button_color),
+                    contentColor = Color.Black
+                )
             ) {
                 Icon(
                     painterResource(id = R.drawable.ic_icon_chevron_left),

@@ -1,17 +1,17 @@
 package karpiuk.ivan.feature_feed
 
 import android.app.Activity
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +23,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import karpiuk.ivan.model.Feed
@@ -34,6 +39,7 @@ import karpiuk.ivan.ui.R
 @Composable
 fun FeedRoute(
     onItemClick: (Result, String) -> Unit,
+    paddings: PaddingValues,
     modifier: Modifier = Modifier,
     feedViewModel: FeedViewModel = hiltViewModel()
 ) {
@@ -42,13 +48,14 @@ fun FeedRoute(
     SideEffect {
         val window = (view.context as Activity).window
         val windowInsetsControllerCompat = WindowCompat.getInsetsController(window, view)
-        windowInsetsControllerCompat.isAppearanceLightStatusBars = !darkTheme&&true
+        windowInsetsControllerCompat.isAppearanceLightStatusBars = !darkTheme && true
     }
 
     val state by feedViewModel.uiState.collectAsState()
     FeedContent(
         state = state,
         onItemClick = onItemClick,
+        paddings = paddings,
         modifier = modifier
     )
 }
@@ -57,6 +64,7 @@ fun FeedRoute(
 fun FeedContent(
     state: FeedUiState,
     onItemClick: (Result, String) -> Unit,
+    paddings: PaddingValues,
     modifier: Modifier = Modifier
 ) {
     when (state) {
@@ -66,6 +74,7 @@ fun FeedContent(
             items = state.feed.results,
             copyright = state.feed.copyright,
             onItemClick = onItemClick,
+            paddings = paddings,
             modifier = modifier
         )
     }
@@ -76,18 +85,52 @@ fun ContentGrid(
     items: List<Result>,
     copyright: String,
     onItemClick: (Result, String) -> Unit,
+    paddings: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        contentPadding = PaddingValues(all = dimensionResource(id = R.dimen.default_content_padding)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_items_spacing)),
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_items_spacing)),
-        columns = GridCells.Fixed(2),
-        modifier = modifier
-    ) {
-        items(items, key = { it.id }) {
-            ContentItem(data = it, onItemClick = { item -> onItemClick(item, copyright) })
+    Box() {
+        val listState = rememberLazyGridState()
+        val toolbarState by remember {
+            derivedStateOf {
+                if (listState.firstVisibleItemIndex > 0)
+                    ExpandableToolbarState.COLLAPSED
+                else
+                    ExpandableToolbarState.EXPANDED
+            }
         }
+
+        val defaultPadding = dimensionResource(id = R.dimen.default_content_padding)
+        val expandedToolbarHeight = dimensionResource(id = karpiuk.ivan.feature_feed.R.dimen.expanded_toolbar_height)
+        val collapsedToolbarHeight = dimensionResource(id = karpiuk.ivan.feature_feed.R.dimen.collapsed_toolbar_height)
+
+        LazyVerticalGrid(
+            state = listState,
+            contentPadding = PaddingValues(
+                start = defaultPadding,
+                top = defaultPadding + expandedToolbarHeight + paddings.calculateTopPadding(),
+                end = defaultPadding,
+                bottom = defaultPadding + paddings.calculateBottomPadding()
+            ),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_items_spacing)),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_items_spacing)),
+            columns = GridCells.Fixed(2),
+            modifier = modifier.animateContentSize()
+        ) {
+            items(items, key = { it.id }) {
+                ContentItem(
+                    data = it,
+                    onItemClick = { item -> onItemClick(item, copyright) }
+                )
+            }
+        }
+
+        ExpandableToolbar(
+            text = stringResource(id = karpiuk.ivan.feature_feed.R.string.feed_title),
+            expandedHeight = expandedToolbarHeight,
+            collapsedHeight = collapsedToolbarHeight,
+            state = toolbarState,
+            topPadding = paddings.calculateTopPadding()
+        )
     }
 }
 
@@ -160,6 +203,88 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
         CircularProgressIndicator()
     }
 }
+
+@Composable
+fun ExpandableToolbar(
+    text: String,
+    state: ExpandableToolbarState,
+    expandedHeight: Dp,
+    collapsedHeight: Dp,
+    topPadding: Dp,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background.copy(alpha = 0.97f))
+                .animateContentSize()
+                .height(
+                    topPadding + (if (state == ExpandableToolbarState.EXPANDED)
+                        expandedHeight
+                    else
+                        collapsedHeight)
+                )
+        )
+
+        AnimatedVisibility(
+            visible = state == ExpandableToolbarState.EXPANDED,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(expandedHeight + topPadding),
+            enter = slideInVertically() + fadeIn(),
+            exit = slideOutVertically() + fadeOut(animationSpec = tween(durationMillis = 200))
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                Text(
+                    text = text, style = TextStyle(
+                        fontSize = fontSizeResource(id = R.integer.expanded_toolbar_title_font_size),
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                        letterSpacing = EXPANDED_TITLE_LETTER_SPACING,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(
+                            start = dimensionResource(id = R.dimen.default_content_padding),
+                            top = topPadding + dimensionResource(id = R.dimen.default_items_spacing)
+                        )
+                )
+            }
+        }
+        AnimatedVisibility(
+            visible = state == ExpandableToolbarState.COLLAPSED,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(collapsedHeight + topPadding),
+            enter = fadeIn(),
+            exit = fadeOut(animationSpec = tween(durationMillis = 200))
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                Text(
+                    text = text,
+                    style = TextStyle(
+                        fontSize = fontSizeResource(id = R.integer.collapsed_toolbar_title_font_size),
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                        letterSpacing = COLLAPSED_TITLE_LETTER_SPACING,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = topPadding + dimensionResource(id = R.dimen.default_items_spacing))
+                )
+            }
+        }
+    }
+}
+
+enum class ExpandableToolbarState {
+    EXPANDED,
+    COLLAPSED
+}
+
+val EXPANDED_TITLE_LETTER_SPACING = (-1.36).sp
+val COLLAPSED_TITLE_LETTER_SPACING = (-0.64).sp
 
 sealed interface FeedUiState {
     object Loading : FeedUiState
