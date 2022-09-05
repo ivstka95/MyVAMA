@@ -35,11 +35,13 @@ private fun FeedApp(
     feedAppState: FeedAppState = rememberFeedAppState(navHostController = rememberNavController())
 ) {
     MyVAMATheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        Surface(modifier = modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             AppNavHost(
                 navHostController = feedAppState.navHostController,
                 onNavigateToDestination = { feedAppState.navigate(it) },
-                onBackClick = { feedAppState.onBackClick() })
+                onBackClick = { feedAppState.onBackClick() },
+                modifier = modifier.fillMaxSize()
+            )
         }
     }
 }
