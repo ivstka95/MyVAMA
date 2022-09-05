@@ -8,7 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -146,20 +145,8 @@ fun DetailsContent(
                     Text(text = copyright, style = artistNameTextStyle().copy(fontWeight = FontWeight.Medium))
                     artistLink?.let {
                         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.large_items_spacing)))
-                        Button(
-                            onClick = { onAlbumPageClick(it) },
-                            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue_color)),
-                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.button_corner_radius)),
-                            modifier = Modifier
-                                .height(dimensionResource(id = R.dimen.button_height))
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.visit_album),
-                                style = itemNameTextStyle().copy(
-                                    letterSpacing = buttonLetterSpacing,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                            )
+                        VamaStyledButton(text =stringResource(id = R.string.visit_album) ) {
+                            onAlbumPageClick(it)
                         }
                     }
                 }
@@ -182,4 +169,3 @@ fun DetailsContent(
 
 val detailsSubTitleLetterSpacing = (-0.72).sp
 val detailsTitleLetterSpacing = (-1.36).sp
-val buttonLetterSpacing = (-0.64).sp
