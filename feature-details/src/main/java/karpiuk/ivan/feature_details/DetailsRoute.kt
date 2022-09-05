@@ -1,18 +1,22 @@
 package karpiuk.ivan.feature_details
 
+import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -20,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import karpiuk.ivan.ui.*
 import karpiuk.ivan.ui.R
 
@@ -36,6 +41,13 @@ fun DetailsRoute(
     artistLink: String?,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
+    SideEffect {
+        val window = (view.context as Activity).window
+        val windowInsetsControllerCompat = WindowCompat.getInsetsController(window, view)
+        windowInsetsControllerCompat.isAppearanceLightStatusBars = false
+    }
+
     DetailsContent(
         onBackClick = onBackClick,
         onAlbumPageClick = onAlbumPageClick,

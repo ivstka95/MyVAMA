@@ -1,6 +1,8 @@
 package karpiuk.ivan.feature_feed
 
+import android.app.Activity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -16,11 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import karpiuk.ivan.model.Feed
 import karpiuk.ivan.model.Result
@@ -33,6 +37,14 @@ fun FeedRoute(
     modifier: Modifier = Modifier,
     feedViewModel: FeedViewModel = hiltViewModel()
 ) {
+    val view = LocalView.current
+    val darkTheme = isSystemInDarkTheme()
+    SideEffect {
+        val window = (view.context as Activity).window
+        val windowInsetsControllerCompat = WindowCompat.getInsetsController(window, view)
+        windowInsetsControllerCompat.isAppearanceLightStatusBars = !darkTheme&&true
+    }
+
     val state by feedViewModel.uiState.collectAsState()
     FeedContent(
         state = state,
