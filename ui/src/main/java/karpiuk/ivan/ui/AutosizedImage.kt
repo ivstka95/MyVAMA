@@ -12,7 +12,6 @@ import coil.request.ImageRequest
 @Composable
 fun AutosizedImage(imageUrl: String, modifier: Modifier) {
     BoxWithConstraints(modifier = modifier) {
-        println("AutosizedImage $imageUrl $constraints")
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(imageUrl.applySize(IntSize(constraints.maxWidth, constraints.maxHeight)))
