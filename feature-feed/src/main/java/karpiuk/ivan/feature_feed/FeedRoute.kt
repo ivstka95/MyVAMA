@@ -88,41 +88,42 @@ fun ContentItem(data: Result, onItemClick: (Result) -> Unit, modifier: Modifier 
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_radius))),
         onClick = { onItemClick(data) }
     ) {
-        AutosizedImage(imageUrl = data.artworkUrl100, modifier = Modifier.fillMaxSize())
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            colorResource(id = R.color.gradient_color)
+        Box() {
+            AutosizedImage(imageUrl = data.artworkUrl100, modifier = Modifier.fillMaxSize())
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                colorResource(id = R.color.gradient_color)
+                            )
                         )
                     )
-                )
-        )
+            )
 
-        Column(
-            modifier = Modifier
-                .padding(all = dimensionResource(id = R.dimen.cell_content_padding))
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            Text(
-                text = data.name,
-                style = itemNameTextStyle(),
-                maxLines = integerResource(id = R.integer.cell_title_max_lines),
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = data.artistName,
-                style = artistNameTextStyle(),
-                maxLines = integerResource(id = R.integer.cell_sub_title_max_lines),
-                overflow = TextOverflow.Ellipsis
-            )
+            Column(
+                modifier = Modifier
+                    .padding(all = dimensionResource(id = R.dimen.cell_content_padding))
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                Text(
+                    text = data.name,
+                    style = itemNameTextStyle(),
+                    maxLines = integerResource(id = R.integer.cell_title_max_lines),
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = data.artistName,
+                    style = artistNameTextStyle(),
+                    maxLines = integerResource(id = R.integer.cell_sub_title_max_lines),
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
-
 }
 
 
