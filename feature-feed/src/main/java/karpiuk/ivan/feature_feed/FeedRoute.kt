@@ -88,7 +88,7 @@ fun ContentGrid(
     paddings: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    Box() {
+    Box {
         val listState = rememberLazyGridState()
         val toolbarState by remember {
             derivedStateOf {
@@ -143,7 +143,7 @@ fun ContentItem(data: Result, onItemClick: (Result) -> Unit, modifier: Modifier 
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_radius))),
         onClick = { onItemClick(data) }
     ) {
-        Box() {
+        Box {
             AutosizedImage(imageUrl = data.artworkUrl100, modifier = Modifier.fillMaxSize())
             Box(
                 modifier = Modifier

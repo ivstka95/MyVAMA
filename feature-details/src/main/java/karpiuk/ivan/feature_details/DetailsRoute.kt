@@ -104,7 +104,7 @@ fun DetailsContent(
                     ),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Column() {
+                Column {
                     Text(
                         text = artistName,
                         style = artistNameTextStyle().copy(
