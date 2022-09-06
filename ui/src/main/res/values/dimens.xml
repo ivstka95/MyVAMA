@@ -9,4 +9,5 @@
     <dimen name="back_button_size">32dp</dimen>
     <dimen name="button_corner_radius">10dp</dimen>
     <dimen name="button_height">45dp</dimen>
+    <dimen name="horizontal_button_padding">20dp</dimen>
 </resources>

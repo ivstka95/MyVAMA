@@ -1,5 +1,6 @@
 package karpiuk.ivan.ui
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -20,8 +21,8 @@ fun VamaStyledButton(text: String, onClick: () -> Unit) {
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue_color)),
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.button_corner_radius)),
-        modifier = Modifier
-            .height(dimensionResource(id = R.dimen.button_height))
+        contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.horizontal_button_padding)),
+        modifier = Modifier.height(dimensionResource(id = R.dimen.button_height))
     ) {
         Text(
             text = text,
