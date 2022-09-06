@@ -72,4 +72,5 @@ dependencies {
     implementation project(path: ':navigation')
     implementation project(path: ':feature-feed')
     implementation project(path: ':feature-details')
+    implementation project(path: ':ui')
 }

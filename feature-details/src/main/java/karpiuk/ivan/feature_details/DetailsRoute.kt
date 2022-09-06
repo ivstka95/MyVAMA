@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import karpiuk.ivan.ui.*
 import karpiuk.ivan.ui.R
+import karpiuk.ivan.ui.theme.Blue
 
 @Composable
 fun DetailsRoute(
@@ -107,35 +108,18 @@ fun DetailsContent(
                 Column {
                     Text(
                         text = artistName,
-                        style = artistNameTextStyle().copy(
-                            color = colorResource(id = R.color.details_subtitle_color),
-                            fontSize = fontSizeResource(id = R.integer.details_sub_title_font_size),
-                            letterSpacing = detailsSubTitleLetterSpacing,
-                            fontWeight = FontWeight.Normal
-                        ),
+                        style = MaterialTheme.typography.bodySmall,
                     )
                     Text(
                         text = name,
-                        style = itemNameTextStyle().copy(
-                            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                            fontSize = fontSizeResource(id = R.integer.details_title_font_size),
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = detailsTitleLetterSpacing
-                        )
+                        style = MaterialTheme.typography.displayLarge
                     )
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_items_spacing)))
                     Text(
                         text = genre,
-                        style = artistNameTextStyle().copy(
-                            color = colorResource(id = R.color.blue_color),
-                            fontWeight = FontWeight.Medium,
-                        ),
+                        style = MaterialTheme.typography.bodyMedium.copy(color = Blue),
                         modifier = Modifier
-                            .border(
-                                1.dp,
-                                colorResource(id = R.color.blue_color),
-                                RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_radius))
-                            )
+                            .border(1.dp, Blue, RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_radius)))
                             .padding(horizontal = dimensionResource(id = R.dimen.small_items_spacing))
                             .padding(bottom = 1.dp)
                     )
@@ -147,9 +131,12 @@ fun DetailsContent(
                 ) {
                     Text(
                         text = stringResource(id = R.string.released, releaseDate.formattedDate(LocalContext.current)),
-                        style = artistNameTextStyle().copy(fontWeight = FontWeight.Medium)
+                        style = MaterialTheme.typography.bodyMedium
                     )
-                    Text(text = copyright, style = artistNameTextStyle().copy(fontWeight = FontWeight.Medium))
+                    Text(
+                        text = copyright,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                     artistLink?.let {
                         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.large_items_spacing)))
                         VamaStyledButton(text = stringResource(id = R.string.visit_album)) {

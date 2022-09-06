@@ -27,7 +27,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,6 +34,7 @@ import karpiuk.ivan.model.Feed
 import karpiuk.ivan.model.Result
 import karpiuk.ivan.ui.*
 import karpiuk.ivan.ui.R
+import karpiuk.ivan.ui.theme.Dark
 
 @Composable
 fun FeedRoute(
@@ -166,13 +166,13 @@ fun ContentItem(data: Result, onItemClick: (Result) -> Unit, modifier: Modifier 
             ) {
                 Text(
                     text = data.name,
-                    style = itemNameTextStyle(),
+                    style = MaterialTheme.typography.titleMedium,
                     maxLines = integerResource(id = R.integer.cell_title_max_lines),
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = data.artistName,
-                    style = artistNameTextStyle(),
+                    style = MaterialTheme.typography.bodyMedium,
                     maxLines = integerResource(id = R.integer.cell_sub_title_max_lines),
                     overflow = TextOverflow.Ellipsis
                 )
@@ -191,7 +191,10 @@ fun Error(message: String?, retryAction: () -> Unit, modifier: Modifier = Modifi
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = message ?: stringResource(id = R.string.default_error_message))
+        Text(
+            text = message ?: stringResource(id = R.string.default_error_message),
+            style = MaterialTheme.typography.bodyMedium
+        )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_items_spacing)))
         VamaStyledButton(text = stringResource(id = R.string.retry), onClick = retryAction)
     }
@@ -237,12 +240,8 @@ fun ExpandableToolbar(
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Text(
-                    text = text, style = TextStyle(
-                        fontSize = fontSizeResource(id = R.integer.expanded_toolbar_title_font_size),
-                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        letterSpacing = EXPANDED_TITLE_LETTER_SPACING,
-                        fontWeight = FontWeight.Bold
-                    ),
+                    text = text,
+                    style = MaterialTheme.typography.displayLarge.copy(color = if (isSystemInDarkTheme()) Color.White else Dark),
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .padding(
@@ -263,12 +262,7 @@ fun ExpandableToolbar(
             Box(modifier = Modifier.fillMaxSize()) {
                 Text(
                     text = text,
-                    style = TextStyle(
-                        fontSize = fontSizeResource(id = R.integer.collapsed_toolbar_title_font_size),
-                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        letterSpacing = COLLAPSED_TITLE_LETTER_SPACING,
-                        fontWeight = FontWeight.Bold
-                    ),
+                    style = MaterialTheme.typography.displayMedium.copy(color = if (isSystemInDarkTheme()) Color.White else Dark),
                     modifier = Modifier
                         .align(Alignment.TopCenter)
                         .padding(top = topPadding + dimensionResource(id = R.dimen.default_items_spacing))
@@ -282,9 +276,6 @@ enum class ExpandableToolbarState {
     EXPANDED,
     COLLAPSED
 }
-
-val EXPANDED_TITLE_LETTER_SPACING = (-1.36).sp
-val COLLAPSED_TITLE_LETTER_SPACING = (-0.64).sp
 
 sealed interface FeedUiState {
     object Loading : FeedUiState
