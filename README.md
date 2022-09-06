@@ -10,6 +10,4 @@ Implemented according to design satisfying all requirements
 * Retrofit
 * Jetpack Compose
 
- file:///home/ivan/Desktop/vama
- 
- Built and ready to test file:///home/ivan/Desktop/release/app-release.apk
+https://user-images.githubusercontent.com/23726353/188522029-e60fc2b4-56cb-4145-8322-583972d0f21c.mp4
