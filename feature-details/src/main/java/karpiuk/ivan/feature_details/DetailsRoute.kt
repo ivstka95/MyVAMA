@@ -28,6 +28,7 @@ import androidx.core.view.WindowCompat
 import karpiuk.ivan.ui.*
 import karpiuk.ivan.ui.R
 import karpiuk.ivan.ui.theme.Blue
+import karpiuk.ivan.ui.theme.Dark
 
 @Composable
 fun DetailsRoute(
@@ -112,7 +113,7 @@ fun DetailsContent(
                     )
                     Text(
                         text = name,
-                        style = MaterialTheme.typography.displayLarge
+                        style = MaterialTheme.typography.displayLarge.copy(color = if (isSystemInDarkTheme()) Color.White else Dark)
                     )
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_items_spacing)))
                     Text(
